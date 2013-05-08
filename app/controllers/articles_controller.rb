@@ -24,7 +24,7 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
 
     if @article.valid?
-      redirect_to @article, notice: 'Article was successfully created.'
+      redirect_to articles_path, notice: 'Article was successfully created.'
     else
       render action: 'new'
     end
