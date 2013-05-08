@@ -5,15 +5,13 @@ class Articles::CommentsController < ApplicationController
   before_filter :find_article
 
   def create
-    @comment = Comment.new(params[:comment])
+    @comment = Comment.new(comments_params)
     @comment.article = @article
 
-    respond_to do |format|
-      if @comment.valid?
-        format.html { redirect_to @article, :notice => 'Comment was successfully created.' }
-      else
-        format.html { render "articles/show" }
-      end
+    if @comment.valid?
+      redirect_to @article, :notice => 'Comment was successfully created.'
+    else
+      render "articles/show"
     end
   end
 
@@ -21,5 +19,9 @@ class Articles::CommentsController < ApplicationController
 
   def find_article
     @article = Article.find(params[:article_id])
+  end
+
+  def comments_params
+    params.require(:comment).permit :name, :body
   end
 end
