@@ -5,7 +5,7 @@ class Articles::CommentsController < ApplicationController
   before_filter :find_article
 
   def create
-    @comment = Comment.new(comments_params)
+    @comment = Comment.new(comment_params)
     @comment.article = @article
 
     if @comment.valid?
@@ -21,7 +21,8 @@ class Articles::CommentsController < ApplicationController
     @article = Article.find(params[:article_id])
   end
 
-  def comments_params
-    params.require(:comment).permit :name, :body
+  # Only allow a trusted parameter "white list" through.
+  def comment_params
+    params[:comment].permit!
   end
 end
